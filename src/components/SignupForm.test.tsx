@@ -167,6 +167,22 @@ describe("social sign-in", () => {
     expect(await screen.findByRole("status")).toHaveTextContent(/couldn’t open that sign-in provider/i);
   });
 
+  it("shows a brand logo inside each provider button", () => {
+    const { container } = render(<SignupForm />);
+    for (const name of ["Continue with Google", "Continue with Apple"]) {
+      const button = screen.getByRole("button", { name });
+      expect(button.querySelector("svg.provider-logo")).toBeInTheDocument();
+    }
+    // Google's mark must keep its official colours.
+    expect(container.querySelector('svg.provider-logo path[fill="#4285F4"]')).toBeInTheDocument();
+  });
+
+  it("starts in password mode when the login page asks for it", () => {
+    render(<SignupForm defaultMode="password" />);
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sign in ↗" })).toBeInTheDocument();
+  });
+
   it("tells members when music accounts are not connected", async () => {
     getBrowserSupabaseMock.mockReturnValue(null);
     render(<SignupForm />);

@@ -2,16 +2,18 @@
 
 import { FormEvent, useState } from "react";
 import { getBrowserSupabase } from "../lib/supabase-client";
+import { AppleLogo, GoogleLogo } from "./ProviderLogos";
 
 // ponytail: Google + Apple only. Supabase supports ~19 providers; add more by
 // extending OAUTH_PROVIDERS. Apple needs a paid developer account, and App Store
 // guideline 4.8 requires it once any other social login is offered.
 const OAUTH_PROVIDERS = [
-  { id: "google", label: "Continue with Google" },
-  { id: "apple", label: "Continue with Apple" },
+  { id: "google", label: "Continue with Google", Logo: GoogleLogo },
+  { id: "apple", label: "Continue with Apple", Logo: AppleLogo },
 ] as const;
 
 type Mode = "link" | "password";
+type SignupFormProps = { defaultMode?: Mode };
 
 function signInErrorMessage(code?: string) {
   if (code === "over_email_send_rate_limit") {
@@ -35,8 +37,8 @@ function passwordErrorMessage(code?: string) {
   return "Couldn’t sign you in right now. Please try again.";
 }
 
-export default function SignupForm() {
-  const [mode, setMode] = useState<Mode>("link");
+export default function SignupForm({ defaultMode = "link" }: SignupFormProps = {}) {
+  const [mode, setMode] = useState<Mode>(defaultMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -118,7 +120,8 @@ export default function SignupForm() {
             disabled={busy}
             onClick={() => void signInWithProvider(provider.id)}
           >
-            {provider.label}
+            <provider.Logo />
+            <span>{provider.label}</span>
           </button>
         ))}
       </div>

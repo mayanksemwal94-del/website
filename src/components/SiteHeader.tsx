@@ -19,7 +19,11 @@ export default function SiteHeader({ project = "mayank" }: { project?: "mayank" 
       <nav aria-label="Main navigation">
         <Link href="/music">Music</Link><Link href="/#videos">Videos</Link><Link href="/#shop">Merch</Link><Link href="/flares-of-gold">Flares Of Gold ↗</Link>
       </nav>
-      <div className="header-actions"><CartIndicator /><Link className="header-cta" href="/music">Music ↗</Link></div>
+      <div className="header-actions">
+        <CartIndicator />
+        <Link className="header-login" href="/login">Log in</Link>
+        <Link className="header-cta" href="/signup">Sign up</Link>
+      </div>
     </header>
   );
 }

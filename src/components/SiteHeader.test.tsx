@@ -9,10 +9,19 @@ import SiteHeader from "./SiteHeader";
 afterEach(cleanup);
 
 describe("main navigation", () => {
-  it("opens the members-only music area from the header CTA", () => {
+  it("offers log in and sign up from the header", () => {
     const { container } = render(<SiteHeader />);
+    const login = container.querySelector(".header-login");
+    expect(login).toHaveTextContent("Log in");
+    expect(login).toHaveAttribute("href", "/login");
+
     const cta = container.querySelector(".header-cta");
-    expect(cta).toHaveTextContent("Music");
-    expect(cta).toHaveAttribute("href", "/music");
+    expect(cta).toHaveTextContent("Sign up");
+    expect(cta).toHaveAttribute("href", "/signup");
+  });
+
+  it("still links to the music area from the main nav", () => {
+    const { container } = render(<SiteHeader />);
+    expect(container.querySelector('nav a[href="/music"]')).toHaveTextContent("Music");
   });
 });
