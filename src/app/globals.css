@@ -109,6 +109,16 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .signup-form button { border: 0; padding: 0 13px; background: var(--ink); color: white; font: 8px var(--mono); text-transform: uppercase; cursor: pointer; }
 .signup-form button:disabled { opacity: .6; cursor: wait; }
 .form-message { flex-basis: 100%; margin: 4px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.signin-options { margin-top: 17px; }
+.oauth-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.oauth-button { flex: 1; min-width: 160px; min-height: 42px; padding: 0 14px; border: 1px solid var(--line); background: transparent; color: inherit; font: 9px var(--mono); text-transform: uppercase; letter-spacing: .07em; cursor: pointer; transition: background .18s ease, color .18s ease; }
+.oauth-button:hover:not(:disabled) { background: var(--ink); color: white; border-color: var(--ink); }
+.oauth-button:disabled { opacity: .6; cursor: wait; }
+.signin-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0 0; color: var(--muted); font: 8px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.signin-divider::before, .signin-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.signin-options .signup-form { margin-top: 10px; }
+.signin-mode-toggle { margin-top: 10px; padding: 0; border: 0; background: transparent; color: var(--muted); font: 9px var(--mono); text-transform: uppercase; letter-spacing: .06em; text-decoration: underline; cursor: pointer; }
+.signin-mode-toggle:hover { color: var(--ink); }
 
 .ai-film-section { position: relative; padding: 0; overflow: hidden; background: #fff; color: var(--ink); border-block: 1px solid #171817; scroll-margin-top: 70px; }
 .ai-film-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .86fr) minmax(0, 1fr); grid-template-rows: auto minmax(560px, 1fr); column-gap: clamp(24px, 4vw, 58px); min-height: 720px; }
