@@ -1,69 +1,44 @@
-import Image from "next/image";
+import Link from "next/link";
+import Carousel from "@/components/Carousel";
+import AIFilmSection from "@/components/AIFilmSection";
+import DhaageMusicGate from "@/components/DhaageMusicGate";
+import MerchGallery from "@/components/MerchGallery";
+import MusicVideos from "@/components/MusicVideos";
+import PublicMusicTeaser from "@/components/PublicMusicTeaser";
+import SiteHeader from "@/components/SiteHeader";
+import { mayankMerch, socialLinks } from "@/lib/content";
+import { getCollectionProducts } from "@/lib/shopify";
 
-export default function Home() {
+export default async function Home() {
+  const collection = process.env.SHOPIFY_MAYANK_COLLECTION_HANDLE || "mayank-semwal";
+  const products = await getCollectionProducts(collection);
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <SiteHeader />
+      <main>
+        <Carousel />
+        <div className="ticker" aria-hidden="true"><span>✳ MAYANK SEMWAL · DHAAGE · NEW MUSIC EVERY LAST FRIDAY · SONGS FOR THE IN-BETWEEN · MAYANK SEMWAL · DHAAGE · NEW MUSIC EVERY LAST FRIDAY · </span></div>
+
+        <PublicMusicTeaser />
+
+        <section className="section" id="dhaage"><div className="page-wrap">
+          <div className="section-head"><div><span className="eyebrow">02 / An EP in six threads</span><h2>Dhaage.</h2></div><p>EP planned for February<br />Year and exact date to confirm</p></div>
+          <DhaageMusicGate />
+        </div></section>
+
+        <MusicVideos />
+
+        <AIFilmSection />
+
+        <section className="section shop-section" id="shop"><div className="page-wrap"><div className="section-head"><div><span className="eyebrow">05 / Wear the feeling</span><h2>Mayank’s merch.</h2></div><p>Sample designs now.<br />Approved store listings when ready.</p></div><MerchGallery collectionName="Mayank Semwal" products={products} samples={mayankMerch} /></div></section>
+
+        <section className="section collab-section"><div className="page-wrap"><div className="section-head"><div><span className="eyebrow">06 / Shared frequencies</span><h2>Good music travels.</h2></div><p>Other artists<br />& collaborator EPs</p></div><div className="collab-layout"><p>A place for EPs and releases from the artists who work with Mayank. Each project can have its own artwork and listening link as it’s approved.</p><div className="collab-list"><div><strong>Collaborator EP</strong><span>Project details to be added</span></div><div><strong>Another artist’s release</strong><span>Artwork & link to come</span></div></div></div></div></section>
+
+        <section className="locked-events"><div><span className="eyebrow">07 / In person</span><h2>Live dates & events</h2></div><button type="button" disabled aria-disabled="true">Locked for now · unavailable</button></section>
+
+        <section className="project-callout"><div><span className="eyebrow">A project by Mayank</span><h2>Flares Of Gold <em>/ FOG</em></h2><p>Debut album Life in a Walnut · 12 tracks on Spotify.</p></div><Link className="button button-outline-light" href="/flares-of-gold">Enter the FOG page ↗</Link></section>
       </main>
-    </div>
+      <footer className="site-footer"><span>© Mayank Semwal</span><div><a href={socialLinks.instagram} target="_blank" rel="noreferrer">Instagram ↗</a><a href={socialLinks.youtube} target="_blank" rel="noreferrer">YouTube ↗</a><a href={socialLinks.spotify} target="_blank" rel="noreferrer">Spotify ↗</a><Link href="/flares-of-gold">Flares Of Gold ↗</Link></div></footer>
+    </>
   );
 }
