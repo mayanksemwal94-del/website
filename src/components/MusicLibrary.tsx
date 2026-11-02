@@ -13,6 +13,12 @@ type MusicTrack = {
   slug: string;
   title: string;
   collection: string | null;
+  release_year?: number | null;
+  is_member_visible?: boolean;
+  composed_by?: string | null;
+  lyrics_by?: string | null;
+  recording_studio?: string | null;
+  mix_and_master?: string | null;
   sort_order: number;
   is_released: boolean;
   release_at: string | null;
@@ -101,14 +107,14 @@ export default function MusicLibrary() {
 
         const { data, error: tracksError } = await client
           .from("music_tracks")
-          .select("id, slug, title, collection, sort_order, is_released, release_at, storage_path");
+          .select("id, slug, title, collection, release_year, is_member_visible, composed_by, lyrics_by, recording_studio, mix_and_master, sort_order, is_released, release_at, storage_path");
         if (!active) return;
         if (tracksError) throw tracksError;
         const orderedTracks = ((data ?? []) as MusicTrack[]).sort((a, b) =>
           (a.sort_order ?? Number.MAX_SAFE_INTEGER) - (b.sort_order ?? Number.MAX_SAFE_INTEGER)
           || a.title.localeCompare(b.title),
         );
-        setTracks(orderedTracks);
+        setTracks(orderedTracks.filter((track) => track.is_member_visible !== false && track.slug !== "safar"));
         setLibraryState("ready");
       } catch {
         if (active) {
@@ -216,12 +222,25 @@ export default function MusicLibrary() {
                 const available = isTrackAvailable(track, clockNow ?? 0);
                 const signedUrl = audioUrls[track.id];
                 const hasAudio = available && Boolean(track.storage_path);
+                const collectionLabel = track.collection || (track.is_released ? "Released music" : "Upcoming");
+                const releaseLabel = [collectionLabel, track.release_year].filter(Boolean).join(" · ");
                 return (
                   <article className={`music-track-row${selectedTrackId === track.id ? " is-selected" : ""}`} key={track.id}>
                     <div className="music-track-copy">
-                      <span className="eyebrow">{track.collection || (track.is_released ? "Released music" : "Upcoming")}</span>
+                      <span className="eyebrow">{releaseLabel}</span>
                       <h3>{track.title}</h3>
                       <p>{availabilityText(track, available)}</p>
+                      {track.collection?.startsWith("Dhaage") && (
+                        <details className="music-track-credits">
+                          <summary>Credits &amp; recording details</summary>
+                          <dl>
+                            <div><dt>Composed by</dt><dd>{track.composed_by || "To be added"}</dd></div>
+                            <div><dt>Lyrics by</dt><dd>{track.lyrics_by || "To be added"}</dd></div>
+                            <div><dt>Recording studio</dt><dd>{track.recording_studio || "To be added"}</dd></div>
+                            <div><dt>Mix and master</dt><dd>{track.mix_and_master || "To be added"}</dd></div>
+                          </dl>
+                        </details>
+                      )}
                     </div>
                     {hasAudio ? (
                       <button type="button" onClick={() => void listenToTrack(track)} disabled={loadingTrackId !== null} aria-label={`Listen to ${track.title}`}>

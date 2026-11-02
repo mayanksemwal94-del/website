@@ -4,8 +4,12 @@ export type Song = {
   title: string;
   status: ReleaseStatus;
   href?: string;
+  appleMusicHref?: string;
+  youtubeMusicHref?: string;
+  amazonMusicSearchHref?: string;
   collaborator?: string;
   cover?: string;
+  releaseDate?: string;
   linkLabel?: "Listen" | "Watch";
 };
 
@@ -36,20 +40,26 @@ export const currentSongs: Song[] = [
   {
     title: "Bhula Do Mujhe",
     status: "released",
-    href: spotifyArtist,
+    href: "https://open.spotify.com/track/4y1fI2xAYzW4b10fXrnB4h",
+    appleMusicHref: "https://music.apple.com/in/album/bhula-do-mujhe/6804393568?i=6804393571&uo=4",
+    youtubeMusicHref: "https://music.youtube.com/watch?v=HbvGCMHBhB4",
+    amazonMusicSearchHref: "https://music.amazon.in/search/Bhula%20Do%20Mujhe%20Mayank%20Semwal",
     cover: "/images/bhula-do-mujhe-cover.webp",
   },
   {
     title: "Keh Do",
     status: "released",
     href: "https://open.spotify.com/track/1UeFEEShnjmhdJS0QblkwF",
+    appleMusicHref: "https://music.apple.com/in/album/keh-do/6822160515?i=6822160517&uo=4",
+    youtubeMusicHref: "https://music.youtube.com/watch?v=xfvfWg-ahiw",
+    amazonMusicSearchHref: "https://music.amazon.in/search/Keh%20Do%20Mayank%20Semwal",
     cover: "/images/keh-do-single-cover.webp",
     linkLabel: "Listen",
   },
 ];
 
 export const upcomingSongs: Song[] = [
-  { title: "Mera Ghar", status: "upcoming", cover: "/images/mera-ghar-cover.webp" },
+  { title: "Mera Ghar", status: "upcoming", cover: "/images/mera-ghar-cover.webp", releaseDate: "27 November" },
   { title: "Pal Roshni Ka", status: "upcoming", cover: "/images/pal-roshni-ka-cover.webp" },
   { title: "Mera Kasoor", status: "upcoming", cover: "/images/mera-kasoor-cover.webp" },
   { title: "Woh Hai Kahan", status: "upcoming", cover: "/images/woh-hai-kahan-cover.webp" },

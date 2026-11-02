@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./CartIndicator", () => ({ default: () => null }));
@@ -23,5 +23,13 @@ describe("main navigation", () => {
   it("still links to the music area from the main nav", () => {
     const { container } = render(<SiteHeader />);
     expect(container.querySelector('nav a[href="/music"]')).toHaveTextContent("Music");
+  });
+
+  it("includes the mobile menu and opens its main destinations", () => {
+    render(<SiteHeader />);
+    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    const mobileNav = screen.getByRole("navigation", { name: "Mobile main navigation" });
+    expect(mobileNav).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Flares Of Gold" })).toHaveAttribute("href", "/flares-of-gold");
   });
 });

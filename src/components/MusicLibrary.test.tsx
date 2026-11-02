@@ -77,19 +77,42 @@ describe("members-only music library", () => {
     const client = connectMember({
       profile: memberProfile,
       tracks: [
-        { id: "safar-id", slug: "safar", title: "Safar", is_released: true, release_at: null, storage_path: "released/safar.mp3" },
-        { id: "mera-ghar-id", slug: "mera-ghar", title: "Mera Ghar", is_released: false, release_at: releaseAt, storage_path: "upcoming/mera-ghar.mp3" },
+        { id: "bhula-id", slug: "bhula-do-mujhe", title: "Bhula Do Mujhe", collection: "Dhaage EP", release_year: 2026, is_released: true, release_at: null, storage_path: "dhaage/2026/bhula-do-mujhe.wav" },
+        { id: "keh-id", slug: "keh-do", title: "Keh Do", collection: "Dhaage EP", release_year: 2026, is_released: true, release_at: null, storage_path: "dhaage/2026/keh-do.wav" },
+        { id: "mera-ghar-id", slug: "mera-ghar", title: "Mera Ghar", collection: "Dhaage EP", release_year: 2026, is_released: false, release_at: releaseAt, storage_path: "dhaage/2026/mera-ghar.wav" },
       ],
     });
     render(<MusicLibrary />);
 
-    expect(await screen.findByRole("button", { name: "Listen to Safar" })).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: "Listen to Bhula Do Mujhe" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Listen to Keh Do" })).toBeInTheDocument();
     expect(screen.getByText(/Preview opens 48 hours before release/i)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Listen to Mera Ghar" })).not.toBeInTheDocument();
     expect(client.createSignedUrl).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole("button", { name: "Listen to Safar" }));
-    expect(await screen.findByLabelText("Safar full preview")).toHaveAttribute("src", "https://audio.example/released/safar.mp3");
+    fireEvent.click(screen.getByRole("button", { name: "Listen to Bhula Do Mujhe" }));
+    expect(await screen.findByLabelText("Bhula Do Mujhe full preview")).toHaveAttribute("src", "https://audio.example/dhaage/2026/bhula-do-mujhe.wav");
     expect(client.createSignedUrl).toHaveBeenCalledOnce();
+  });
+
+  it("hides Safar and shows Dhaage release year and credit fields", async () => {
+    connectMember({
+      profile: memberProfile,
+      tracks: [
+        { id: "safar-id", slug: "safar", title: "Safar", collection: "Singles", is_released: true, release_at: null, storage_path: "released/safar.wav", is_member_visible: false },
+        { id: "bhula-id", slug: "bhula-do-mujhe", title: "Bhula Do Mujhe", collection: "Dhaage EP", release_year: 2026, is_released: true, release_at: null, storage_path: null, composed_by: null, lyrics_by: null, recording_studio: null, mix_and_master: null, is_member_visible: true },
+      ],
+    });
+    render(<MusicLibrary />);
+
+    expect(await screen.findByRole("heading", { name: "Bhula Do Mujhe" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Safar" })).not.toBeInTheDocument();
+    expect(screen.getByText("Dhaage EP · 2026")).toBeInTheDocument();
+    expect(screen.getByText("Credits & recording details")).toBeInTheDocument();
+    expect(screen.getByText("Composed by")).toBeInTheDocument();
+    expect(screen.getByText("Lyrics by")).toBeInTheDocument();
+    expect(screen.getByText("Recording studio")).toBeInTheDocument();
+    expect(screen.getByText("Mix and master")).toBeInTheDocument();
+    expect(screen.getAllByText("To be added")).toHaveLength(4);
   });
 
   it("lets a member select an available song and leave private comments", async () => {

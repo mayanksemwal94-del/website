@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import ComingSoonOverlay from "@/components/ComingSoonOverlay";
 import MerchGallery from "@/components/MerchGallery";
 import SiteHeader from "@/components/SiteHeader";
 import { flaresAlbum, flaresMerch, flaresSocialLinks, flaresTracks, flaresVideos } from "@/lib/content";
@@ -135,10 +136,12 @@ export default async function FlaresOfGoldPage() {
         </section>
 
         <section className="section fog-shop" id="shop">
-          <div className="page-wrap">
-            <div className="section-head section-head-dark"><div><span className="eyebrow">05 / FOG-only collection</span><h2>Flares Of Gold merch.</h2></div><p>Separate listing.<br />Shared store checkout.</p></div>
-            <MerchGallery collectionName="Flares Of Gold / FOG" products={products} samples={flaresMerch} />
-          </div>
+          <ComingSoonOverlay label="Flares Of Gold merch">
+            <div className="page-wrap">
+              <div className="section-head section-head-dark"><div><span className="eyebrow">05 / FOG-only collection</span><h2>Flares Of Gold merch.</h2></div><p>Separate collection.<br />Launching soon.</p></div>
+              <MerchGallery collectionName="Flares Of Gold / FOG" products={products} samples={flaresMerch} />
+            </div>
+          </ComingSoonOverlay>
         </section>
 
         <section className="fog-return"><span className="eyebrow">Flares Of Gold · FOG</span><h2>More from the project, as it unfolds.</h2><p>Part of Mayank Semwal’s official music home.</p><Link className="button button-gold" href="/">Back to Mayank Semwal ↗</Link></section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Carousel from "@/components/Carousel";
 import AIFilmSection from "@/components/AIFilmSection";
+import ComingSoonOverlay from "@/components/ComingSoonOverlay";
 import DhaageMusicGate from "@/components/DhaageMusicGate";
 import MerchGallery from "@/components/MerchGallery";
 import MusicVideos from "@/components/MusicVideos";
@@ -30,7 +31,7 @@ export default async function Home() {
 
         <AIFilmSection />
 
-        <section className="section shop-section" id="shop"><div className="page-wrap"><div className="section-head"><div><span className="eyebrow">05 / Wear the feeling</span><h2>Mayank’s merch.</h2></div><p>Sample designs now.<br />Approved store listings when ready.</p></div><MerchGallery collectionName="Mayank Semwal" products={products} samples={mayankMerch} /></div></section>
+        <section className="section shop-section" id="shop"><ComingSoonOverlay label="Mayank Semwal merch"><div className="page-wrap"><div className="section-head"><div><span className="eyebrow">05 / Wear the feeling</span><h2>Mayank’s merch.</h2></div><p>Collection launching soon.<br />More details to come.</p></div><MerchGallery collectionName="Mayank Semwal" products={products} samples={mayankMerch} /></div></ComingSoonOverlay></section>
 
         <section className="section collab-section"><div className="page-wrap"><div className="section-head"><div><span className="eyebrow">06 / Shared frequencies</span><h2>Good music travels.</h2></div><p>Other artists<br />& collaborator EPs</p></div><div className="collab-layout"><p>A place for EPs and releases from the artists who work with Mayank. Each project can have its own artwork and listening link as it’s approved.</p><div className="collab-list"><div><strong>Collaborator EP</strong><span>Project details to be added</span></div><div><strong>Another artist’s release</strong><span>Artwork & link to come</span></div></div></div></div></section>
 
